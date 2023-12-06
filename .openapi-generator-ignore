@@ -40,3 +40,4 @@ go.mod
 go.sum
 .travis.yml
 test/
+README.md

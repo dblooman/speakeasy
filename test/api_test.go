@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	openapiclient "github.com/dblooman/speakeasy/openapi"
+	openapiclient "github.com/dblooman/speakeasy"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -21,7 +21,7 @@ func main() {
 	response, err := apiClient.GetStat(1)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `read stat``: %v\n", err)
-        return
+		return
 	}
 
 	// Handle response data
