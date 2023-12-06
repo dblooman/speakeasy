@@ -1,0 +1,58 @@
+openapi: 3.1.0
+info:
+  description: pokeapi
+  title: poke
+  version: "1"
+servers:
+- url: https://pokeapi.co
+paths:
+  /api/v2/pokemon/{id}/:
+    get:
+      operationId: pokemon_read
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          description: A unique integer value identifying this pokemon.
+          title: ID
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Successful response
+  /api/v2/nature/{id}/:
+    get:
+      operationId: nature_read
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          description: A unique integer value identifying this nature.
+          title: ID
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Successful response
+  /api/v2/stat/{id}/:
+    get:
+      operationId: stat_read
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          description: A unique integer value identifying this stat.
+          title: ID
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Successful response
+components:
+  schemas: {}
