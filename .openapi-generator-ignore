@@ -41,3 +41,4 @@ go.sum
 .travis.yml
 test/
 README.md
+docs/

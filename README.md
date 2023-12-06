@@ -1,3 +1,9 @@
+# Pokemon SDK
+
+## Overview
+
+This is a Go SDK for the [PokeAPI](https://pokeapi.co/). It is generated using openapi Generator. To add additional functionality, please update the openapi spec, and regenerate the SDK using the Make task
+
 # SDK Installation
 
 ```sh
@@ -289,6 +295,54 @@ func TestGetPokemon(t *testing.T) {
 	if response.Name != "bulbasaur" {
 		t.Errorf("Expected response.Name to be bulbasaur, got %s", response.Name)
 	}
+}
+```
+
+# Adding a new endpoint to the SDK
+
+To add a new endpoint to the SDK, update the openapi spec in api/openapi.yaml and run the Make task
+
+A new route can be added to the openapi spec as follows:
+
+```yaml
+/api/v2/stat/{id}/:
+    get:
+      operationId: stat_read
+      parameters:
+	  ....
+```
+
+Once the spec has been updated, run the Make task to generate the SDK
+
+```sh
+make generate
+```
+
+Once generated, add a new function to the client to handle the new endpoint
+
+```go
+func (c *Client) GetStat(id int32) (*StatModel, error) {
+	r, err := c.apiClient.DefaultAPI.StatRead(c.Ctx, id).Execute()
+	if err != nil {
+		return nil, err
+	}
+
+	if r.StatusCode != 200 {
+		return nil, APIError{Code: int32(r.StatusCode), Message: "status code was not 200"}
+	}
+
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var statModel StatModel
+	err = json.Unmarshal(body, &statModel)
+	if err != nil {
+		return nil, err
+	}
+
+	return &statModel, nil
 }
 ```
 
