@@ -42,7 +42,7 @@ func (c *Client) GetNature(id int32) (*NatureModel, error) {
 
 // GetPokemon returns a PokemonModel for the given id
 func (c *Client) GetPokemon(id int32) (*PokemonModel, error) {
-	r, err := c.apiClient.PokemonAPI.PokemonRead(c.Ctx, id).Execute()
+	r, err := c.apiClient.DefaultAPI.PokemonRead(c.Ctx, id).Execute()
 	if err != nil {
 		return nil, err
 	}

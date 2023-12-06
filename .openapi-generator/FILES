@@ -1,14 +1,8 @@
 .gitignore
-.travis.yml
-README.md
 api/openapi.yaml
 api_default.go
-api_pokemon.go
 client.go
 configuration.go
 docs/DefaultAPI.md
-docs/PokemonAPI.md
-go.mod
-go.sum
 response.go
 utils.go

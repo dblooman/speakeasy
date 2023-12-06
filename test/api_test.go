@@ -2,7 +2,9 @@ package openapi
 
 import (
 	"context"
+	"fmt"
 	"net/http"
+	"net/http/httptest"
 	"testing"
 	"time"
 
@@ -49,4 +51,29 @@ func TestClientConfiguration(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, "bulbasaur", response.Species.Name)
+}
+
+func TestGetPokemonWithMockServer(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, `{"id":1,"name":"bulbasaur","base_experience":64,"height":7,"is_default":true,"order":1,"weight":69}`)
+	}))
+	defer ts.Close()
+
+	configuration := openapiclient.NewConfiguration()
+	configuration.Servers = openapiclient.ServerConfigurations{
+		{
+			URL: ts.URL,
+		},
+	}
+
+	apiClient := openapiclient.New(configuration)
+	response, err := apiClient.GetPokemon(1)
+	if err != nil {
+		t.Errorf("Error when calling `read pokemon``: %v\n", err)
+		return
+	}
+
+	if response.Name != "bulbasaur" {
+		t.Errorf("Expected response.Name to be bulbasaur, got %s", response.Name)
+	}
 }

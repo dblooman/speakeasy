@@ -50,38 +50,15 @@ type APIClient struct {
 	// API Services
 
 	DefaultAPI *DefaultAPIService
-
-	PokemonAPI *PokemonAPIService
 }
 
 type service struct {
 	client *APIClient
 }
 
-type Client struct {
-	apiClient *APIClient
-	Ctx context.Context
-}
-
-func NewWithContext(ctx context.Context, configuration *Configuration) *Client {
-	if configuration == nil {
-		configuration = NewConfiguration()
-	}
-	apiClient := newAPIClient(configuration)
-	return &Client{apiClient: apiClient, Ctx: ctx}
-}
-
-func New(configuration *Configuration) *Client {
-	if configuration == nil {
-		configuration = NewConfiguration()
-	}
-	apiClient := newAPIClient(configuration)
-	return &Client{apiClient: apiClient, Ctx: context.Background()}
-}
-
 // NewAPIClient creates a new API client. Requires a userAgent string describing your application.
 // optionally a custom http.Client to allow for advanced features such as caching.
-func newAPIClient(cfg *Configuration) *APIClient {
+func NewAPIClient(cfg *Configuration) *APIClient {
 	if cfg.HTTPClient == nil {
 		cfg.HTTPClient = http.DefaultClient
 	}
@@ -92,7 +69,6 @@ func newAPIClient(cfg *Configuration) *APIClient {
 
 	// API Services
 	c.DefaultAPI = (*DefaultAPIService)(&c.common)
-	c.PokemonAPI = (*PokemonAPIService)(&c.common)
 
 	return c
 }
